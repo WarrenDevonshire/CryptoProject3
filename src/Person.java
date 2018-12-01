@@ -7,8 +7,11 @@ import java.util.Random;
  */
 public class Person 
 {
+	//used to fill the last block if the message is not a multiple of the block size
+	private char stufferChar = 0x0;
+	
 	//minimum is 2, max is 4
-	private byte blockSize = 2;
+	private byte blockSize = 1;
 	
 	//public modulus. m = p*q, where p and q are both primes
 	private long m;
@@ -33,19 +36,12 @@ public class Person
 		int minPrimeSize = (int)Math.pow(2, 8*blockSize); //2^(block size). This works because ascii 
 														  //characters are 8 bits, but the max ascii value is 127
 		int maxPrimeSize = (int)Math.pow(2, 32);		  //2^(length of int)
-		/*
-		 *	long p = RSA.randPrime(minPrimeSize, maxPrimeSize, rand);//TODO
-		 *	long q = RSA.randPrime(minPrimeSize, maxPrimeSize, rand);//TODO
-		 */
-		long p = 13;
-		long q = 17;
+		long p = 11353;//RSA.randPrime(minPrimeSize, maxPrimeSize, rand);
+		long q = 6917;//RSA.randPrime(minPrimeSize, maxPrimeSize, rand);
 		m = p*q;
 		n = (p-1)*(q-1);
-		/*
-		 * e = RSA.relPrime(n, rand);
-		 */
-		e = 5;
-		d = RSA.inverse(e, n);
+		e = 78510427;//RSA.relPrime(n, rand);
+		d = 28856311;//RSA.inverse(e, m);
 	}
 	
 	/**
@@ -71,10 +67,15 @@ public class Person
 	 * @param she The Person being sent the cipher text
 	 * @return The cipher text as an array of longs
 	 */
-	public long[] encryptTo(String msg, Person she)
+	public long[] encryptTo(String msg, Person she) throws ArithmeticException
 	{
 		long[] msgAsArray = new long[(int)Math.ceil(msg.length()/(double)blockSize)];
 		
+		int stufferCharsLength = msg.length() % blockSize;
+		for(int i = 0; i < stufferCharsLength; i++)
+		{
+			msg += stufferChar;
+		}
 		//Converts msg string to long array
 		char[] messageChar = msg.toCharArray();
 		int current = 0;
@@ -90,7 +91,7 @@ public class Person
 		//Encrypts each long in the message
 		for(int i = 0; i < msgAsArray.length; i++)
 		{
-			msgAsArray[i] = RSA.modPower(msgAsArray[i], e, m);
+			msgAsArray[i] = RSA.modPower(msgAsArray[i], she.getE(), she.getM());
 		}
 		
 		return msgAsArray;
@@ -102,7 +103,7 @@ public class Person
 	 * @param cipher The cipher text to be decrypted
 	 * @return The string of plain text
 	 */
-	public String decrypt(long[] cipher)
+	public String decrypt(long[] cipher) throws ArithmeticException
 	{	
 		//Decrypts each long in the message
 		for(int i = 0; i < cipher.length; i++)
@@ -112,7 +113,7 @@ public class Person
 		
 		//Converts long array to char array
 		char[] messageChar = new char[cipher.length * blockSize];
-		int current = 0;
+		int current = messageChar.length-1;
 		for(int i = cipher.length-1; i >= 0; i--)
 		{
 			long byteExtractor = 255;
