@@ -23,7 +23,7 @@ public class RSA {
 
         if(modulus == 1) return 0;
 
-        //Throw ArithmeticException if overflow
+        //Throws ArithmeticException if overflow
         Math.multiplyExact(modulus-1, modulus-1);
 
         //Right to Left Binary Exponentiation
