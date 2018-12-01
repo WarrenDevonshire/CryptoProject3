@@ -33,12 +33,19 @@ public class Person
 		int minPrimeSize = (int)Math.pow(2, 8*blockSize); //2^(block size). This works because ascii 
 														  //characters are 8 bits, but the max ascii value is 127
 		int maxPrimeSize = (int)Math.pow(2, 32);		  //2^(length of int)
-		long p = RSA.randPrime(minPrimeSize, maxPrimeSize, rand);//TODO
-		long q = RSA.randPrime(minPrimeSize, maxPrimeSize, rand);//TODO
+		/*
+		 *	long p = RSA.randPrime(minPrimeSize, maxPrimeSize, rand);//TODO
+		 *	long q = RSA.randPrime(minPrimeSize, maxPrimeSize, rand);//TODO
+		 */
+		long p = 13;
+		long q = 17;
 		m = p*q;
 		n = (p-1)*(q-1);
-		e = RSA.relPrime(n, rand);
-		d = RSA.inverse(e, m);
+		/*
+		 * e = RSA.relPrime(n, rand);
+		 */
+		e = 5;
+		d = RSA.inverse(e, n);
 	}
 	
 	/**
