@@ -123,7 +123,6 @@ public class Person
 				cipher[i] >>= 8;
 			}
 		}
-		
-		return new String(messageChar);
+		return new String(messageChar).replace("\0", "");
 	}
 }

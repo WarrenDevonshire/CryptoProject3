@@ -15,7 +15,7 @@ class PersonTest {
     @Test
     void encryptEqualsDecrypt(){
         Person person = new Person();
-        String msg = "Hello, World!";
+        String msg = "Hello, World! GoodbyeWorld!";
 
         long[] cipher = person.encryptTo(msg, person);
 
