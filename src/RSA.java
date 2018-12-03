@@ -10,13 +10,14 @@ public class RSA {
      * @return
      */
     @Contract(pure = true)
-    public static long inverse(long e, long m){
-        //rename variables for code clarity
-        long exponent = e;
-        long modulus = m;
+    public static long inverse(long e, long m)throws ArithmeticException{
+        long result[] = egcd(e,m);
+        long d = result[0];
+        if(result[2] != 1) throw new ArithmeticException("Numbers are not relatively prime.");
 
+        while(d < 0) d += m;
 
-        return 0;
+        return d;
     }
 
     /**

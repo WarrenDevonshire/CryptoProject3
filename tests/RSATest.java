@@ -8,6 +8,25 @@ import static org.junit.jupiter.api.Assertions.*;
 class RSATest {
     @Test
     void inverse() {
+        Random rand = new Random();
+        long e = Math.abs(rand.nextLong());
+        long m = Math.abs(rand.nextLong());
+        BigInteger bigE = BigInteger.valueOf(e);
+        BigInteger bigM = BigInteger.valueOf(m);
+
+        BigInteger gcd = bigE.gcd(bigM);
+        BigInteger one = BigInteger.valueOf(1);
+
+        if(gcd.equals(one)){//e and m are relatively prime.
+            assertEquals(String.valueOf(RSA.inverse(e,m)), bigE.modInverse(bigM).toString());
+        }else{//should throw exceptions.
+            assertThrows(ArithmeticException.class, () -> {
+                RSA.inverse(e,m);
+            });
+            assertThrows(ArithmeticException.class, () -> {
+                bigE.modInverse(bigM);
+            });
+        }
     }
 
     @Test
