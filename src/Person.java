@@ -11,7 +11,7 @@ public class Person
 	private char stufferChar = 0x0;
 	
 	//minimum is 2, max is 4
-	private byte blockSize = 1;
+	private byte blockSize = 2;
 	
 	//public modulus. m = p*q, where p and q are both primes
 	private long m;
@@ -36,12 +36,12 @@ public class Person
 		int minPrimeSize = (int)Math.pow(2, 8*blockSize); //2^(block size). This works because ascii 
 														  //characters are 8 bits, but the max ascii value is 127
 		int maxPrimeSize = (int)Math.pow(2, 32);		  //2^(length of int)
-		long p = 11353;//RSA.randPrime(minPrimeSize, maxPrimeSize, rand);
-		long q = 6917;//RSA.randPrime(minPrimeSize, maxPrimeSize, rand);
+		long p = 8629;//RSA.randPrime(minPrimeSize, maxPrimeSize, rand);
+		long q = 461;//RSA.randPrime(minPrimeSize, maxPrimeSize, rand);
 		m = p*q;
 		n = (p-1)*(q-1);
-		e = 78510427;//RSA.relPrime(n, rand);
-		d = 28856311;//RSA.inverse(e, m);
+		e = 3968873;//RSA.relPrime(n, rand);
+		d = 3401897;//RSA.inverse(e, n);
 	}
 	
 	/**
@@ -68,23 +68,24 @@ public class Person
 	 * @return The cipher text as an array of longs
 	 */
 	public long[] encryptTo(String msg, Person she) throws ArithmeticException
-	{
-		long[] msgAsArray = new long[(int)Math.ceil(msg.length()/(double)blockSize)];
-		
+	{	
+		//Makes message length a multiple of the block size
 		int stufferCharsLength = msg.length() % blockSize;
 		for(int i = 0; i < stufferCharsLength; i++)
 		{
 			msg += stufferChar;
 		}
+		
 		//Converts msg string to long array
 		char[] messageChar = msg.toCharArray();
+		long[] msgAsArray = new long[msg.length()/blockSize];
 		int current = 0;
 		for(int i = 0; i < msgAsArray.length; i++)
 		{
 			for(int j = 0; j < blockSize; j++)
 			{
 				msgAsArray[i] <<= 8; //shifts one byte
-				msgAsArray[i] += (long)messageChar[current++];
+				msgAsArray[i] += (byte)messageChar[current++];
 			}
 		}
 		
@@ -116,14 +117,13 @@ public class Person
 		int current = messageChar.length-1;
 		for(int i = cipher.length-1; i >= 0; i--)
 		{
-			long byteExtractor = 255;
 			for(int j = 0; j < blockSize; j++)
 			{
-				messageChar[current--] = (char)(cipher[i] & byteExtractor);
-				byteExtractor <<= 8;
+				messageChar[current--] = (char)(cipher[i] & 255);
+				cipher[i] >>= 8;
 			}
 		}
 		
-		return messageChar.toString();
+		return new String(messageChar);
 	}
 }
