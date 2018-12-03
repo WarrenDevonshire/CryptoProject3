@@ -37,4 +37,15 @@ class RSATest {
             RSA.modPower(base, exponent, modulus);
         });
     }
+
+    @Test
+    void gcd() {
+        Random rand = new Random();
+        long u = rand.nextLong();
+        long v = rand.nextLong();
+        BigInteger bigU = BigInteger.valueOf(u);
+        BigInteger bigV = BigInteger.valueOf(v);
+
+        assertEquals(String.valueOf(RSA.gcd(u,v)), bigU.gcd(bigV).toString());
+    }
 }

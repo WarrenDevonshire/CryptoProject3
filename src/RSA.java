@@ -3,6 +3,12 @@ import org.jetbrains.annotations.Contract;
 public class RSA {
 
 
+    /**
+     *
+     * @param e
+     * @param m
+     * @return
+     */
     @Contract(pure = true)
     public static long inverse(long e, long m){
         //rename variables for code clarity
@@ -13,7 +19,48 @@ public class RSA {
         return 0;
     }
 
+    /**
+     *
+     * @param u
+     * @param v
+     * @return
+     */
+    @Contract(pure = true)
+    public static long[] egcd(long u, long v){
+        u = Math.abs(u);
+        v = Math.abs(v);
 
+
+    }
+
+    /**
+     *
+     * @param u
+     * @param v
+     * @return
+     */
+    @Contract(pure = true)
+    public static long gcd(long u, long v){
+        u = Math.abs(u);
+        v = Math.abs(v);
+        long r;
+
+        while(v != 0){
+            r = u % v;
+            u = v;
+            v = r;
+        }
+        return u;
+    }
+
+    /**
+     *
+     * @param b
+     * @param p
+     * @param m
+     * @return
+     * @throws ArithmeticException
+     */
     @Contract(pure = true)
     public static long modPower(long b, long p, long m) throws ArithmeticException{
         //rename variables for code clarity
