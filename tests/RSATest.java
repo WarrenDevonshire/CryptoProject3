@@ -48,4 +48,15 @@ class RSATest {
 
         assertEquals(String.valueOf(RSA.gcd(u,v)), bigU.gcd(bigV).toString());
     }
+
+    @Test
+    void egcd() {
+        Random rand = new Random();
+        long u = rand.nextLong();
+        long v = rand.nextLong();
+        BigInteger bigU = BigInteger.valueOf(u);
+        BigInteger bigV = BigInteger.valueOf(v);
+
+        assertEquals(String.valueOf(RSA.egcd(u,v)[2]), bigU.gcd(bigV).toString());
+    }
 }
