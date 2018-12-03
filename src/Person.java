@@ -41,7 +41,7 @@ public class Person
 		m = p*q;
 		n = (p-1)*(q-1);
 		e = 3968873;//RSA.relPrime(n, rand);
-		d = 3401897;//RSA.inverse(e, n);
+		d = RSA.inverse(e, n);
 	}
 	
 	/**
