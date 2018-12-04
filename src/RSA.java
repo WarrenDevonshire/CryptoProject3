@@ -1,13 +1,14 @@
 import org.jetbrains.annotations.Contract;
 
+import javax.crypto.IllegalBlockSizeException;
+
 public class RSA {
-
-
     /**
      *
      * @param e
      * @param m
      * @return
+     * @author Warren Devonshire
      */
     @Contract(pure = true)
     public static long inverse(long e, long m)throws ArithmeticException{
@@ -26,6 +27,7 @@ public class RSA {
      * @param v
      * @return Array {u0,u1,u2} where the equation: u0*u + u1*v = u2 = gcd(u,v) holds true.
      * u0 is the inverse of u, and u2 is the gcd of u and v.
+     * @author Warren Devonshire
      */
     @Contract(pure = true)
     public static long[] egcd(long u, long v){
@@ -61,6 +63,7 @@ public class RSA {
      * @param u
      * @param v
      * @return
+     * @author Warren Devonshire
      */
     @Contract(pure = true)
     public static long gcd(long u, long v){
@@ -78,23 +81,33 @@ public class RSA {
 
     /**
      *
-     * @param b
-     * @param p
-     * @param m
+     * @param b Base
+     * @param p Exponent
+     * @param m Modulus
      * @return
      * @throws ArithmeticException
+     * @throws IllegalArgumentException
+     * @author Warren Devonshire
      */
     @Contract(pure = true)
-    public static long modPower(long b, long p, long m) throws ArithmeticException{
+    public static long modPower(long b, long p, long m) throws ArithmeticException, IllegalArgumentException {
         //rename variables for code clarity
         long base = b;
         long exponent = p;
         long modulus = m;
 
+        //check for illegal arguments
+        if(modulus <= 0) throw new IllegalArgumentException("Modulus cannot be zero!");
+        if(exponent < 0) throw new IllegalArgumentException("Exponent cannot be less than zero!");
+
+        //If a modulus is 1 the answer is always zero
         if(modulus == 1) return 0;
 
         //Throws ArithmeticException if overflow
         Math.multiplyExact(modulus-1, modulus-1);
+
+        //check to see if base is less than zero, if true make base positive.
+        while(base < 0) base += modulus;
 
         //Right to Left Binary Exponentiation
         long result = 1;

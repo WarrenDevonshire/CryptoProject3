@@ -32,7 +32,7 @@ class RSATest {
     @Test
     void modPower() {
         Random rand = new Random();
-        int base = rand.nextInt(Integer.MAX_VALUE);
+        int base = rand.nextInt();
         int exponent = rand.nextInt(Integer.MAX_VALUE);
         int modulus = rand.nextInt(Integer.MAX_VALUE);
 
@@ -49,10 +49,34 @@ class RSATest {
     void modPowerThrowsArithmeticException(){
         Random rand = new Random();
         long base = rand.nextLong();
-        long exponent = rand.nextLong();
-        long modulus = rand.nextLong();
+        long exponent = Math.abs(rand.nextLong());
+        long modulus = Math.abs(rand.nextLong());
 
         assertThrows(ArithmeticException.class, () -> {
+            RSA.modPower(base, exponent, modulus);
+        });
+    }
+
+    @Test
+    void modPowerThrowsIllegalArgumentExceptionForModulus(){
+        Random rand = new Random();
+        long base = rand.nextLong();
+        long exponent = Math.abs(rand.nextLong());
+        long modulus = -Math.abs(rand.nextLong());
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            RSA.modPower(base, exponent, modulus);
+        });
+    }
+
+    @Test
+    void modPowerThrowsIllegalArgumentExceptionForExponent(){
+        Random rand = new Random();
+        long base = rand.nextLong();
+        long exponent = -Math.abs(rand.nextLong());
+        long modulus = Math.abs(rand.nextLong());
+
+        assertThrows(IllegalArgumentException.class, () -> {
             RSA.modPower(base, exponent, modulus);
         });
     }
