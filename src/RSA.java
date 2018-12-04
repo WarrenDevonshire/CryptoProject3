@@ -12,6 +12,8 @@ public class RSA {
      */
     @Contract(pure = true)
     public static long inverse(long e, long m)throws ArithmeticException{
+        if(m < 0 || e < 0) throw new IllegalArgumentException("Arguments must be positive!");
+
         long result[] = egcd(e,m);
         long d = result[0];
         if(result[2] != 1) throw new ArithmeticException("Numbers are not relatively prime.");
