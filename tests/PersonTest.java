@@ -16,12 +16,12 @@ class PersonTest {
     }
 
     @Test
-    void encryptEqualsDecrypt(){
+    void encryptEqualsDecrypt() {
         Person person = new Person();
         Random r = new Random();
         int stringSize = Math.abs(r.nextInt(100));
         StringBuilder msgBuilder = new StringBuilder(stringSize);
-        for(int j = 0; j < stringSize; j++) {
+        for (int j = 0; j < stringSize; j++) {
             msgBuilder.append(r.nextInt(10));
         }
         String msg = msgBuilder.toString();

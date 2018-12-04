@@ -17,17 +17,17 @@ class RSATest {
         BigInteger gcd = bigE.gcd(bigM);
         BigInteger one = BigInteger.valueOf(1);
 
-        if(gcd.equals(one)){//e and m are relatively prime.
-            assertEquals(String.valueOf(RSA.inverse(e,m)), bigE.modInverse(bigM).toString());
-        }else{//should throw exceptions.
+        if (gcd.equals(one)) {//e and m are relatively prime.
+            assertEquals(String.valueOf(RSA.inverse(e, m)), bigE.modInverse(bigM).toString());
+        } else {//should throw exceptions.
             assertThrows(ArithmeticException.class, () -> {
-                RSA.inverse(e,m);
+                RSA.inverse(e, m);
             });
         }
     }
 
     @Test
-    void inverseThrowsIllegalArgumentException(){
+    void inverseThrowsIllegalArgumentException() {
         Random rand = new Random();
         long e = rand.nextLong();
         long m = rand.nextLong();
@@ -37,16 +37,16 @@ class RSATest {
         BigInteger gcd = bigE.gcd(bigM);
         BigInteger one = BigInteger.valueOf(1);
 
-        if(e < 0 || m < 0){//e and m are not positive
+        if (e < 0 || m < 0) {//e and m are not positive
             assertThrows(IllegalArgumentException.class, () -> {
-                RSA.inverse(e,m);
+                RSA.inverse(e, m);
             });
-        }else{
-            if(gcd.equals(one)){//e and m are relatively prime.
-                assertEquals(String.valueOf(RSA.inverse(e,m)), bigE.modInverse(bigM).toString());
-            }else{//should throw exceptions.
+        } else {
+            if (gcd.equals(one)) {//e and m are relatively prime.
+                assertEquals(String.valueOf(RSA.inverse(e, m)), bigE.modInverse(bigM).toString());
+            } else {//should throw exceptions.
                 assertThrows(ArithmeticException.class, () -> {
-                    RSA.inverse(e,m);
+                    RSA.inverse(e, m);
                 });
             }
         }
@@ -69,7 +69,7 @@ class RSATest {
     }
 
     @Test
-    void modPowerThrowsArithmeticException(){
+    void modPowerThrowsArithmeticException() {
         Random rand = new Random();
         long base = rand.nextLong();
         long exponent = Math.abs(rand.nextLong());
@@ -81,7 +81,7 @@ class RSATest {
     }
 
     @Test
-    void modPowerThrowsIllegalArgumentExceptionForModulus(){
+    void modPowerThrowsIllegalArgumentExceptionForModulus() {
         Random rand = new Random();
         long base = rand.nextLong();
         long exponent = Math.abs(rand.nextLong());
@@ -93,7 +93,7 @@ class RSATest {
     }
 
     @Test
-    void modPowerThrowsIllegalArgumentExceptionForExponent(){
+    void modPowerThrowsIllegalArgumentExceptionForExponent() {
         Random rand = new Random();
         long base = rand.nextLong();
         long exponent = -Math.abs(rand.nextLong());
@@ -112,7 +112,7 @@ class RSATest {
         BigInteger bigU = BigInteger.valueOf(u);
         BigInteger bigV = BigInteger.valueOf(v);
 
-        assertEquals(String.valueOf(RSA.gcd(u,v)), bigU.gcd(bigV).toString());
+        assertEquals(String.valueOf(RSA.gcd(u, v)), bigU.gcd(bigV).toString());
     }
 
     @Test
@@ -123,6 +123,6 @@ class RSATest {
         BigInteger bigU = BigInteger.valueOf(u);
         BigInteger bigV = BigInteger.valueOf(v);
 
-        assertEquals(String.valueOf(RSA.egcd(u,v)[2]), bigU.gcd(bigV).toString());
+        assertEquals(String.valueOf(RSA.egcd(u, v)[2]), bigU.gcd(bigV).toString());
     }
 }
