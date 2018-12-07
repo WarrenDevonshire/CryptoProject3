@@ -129,4 +129,32 @@ class RSATest {
 
         assertEquals(String.valueOf(RSA.egcd(u, v)[2]), bigU.gcd(bigV).toString());
     }
+
+    @Test
+    void randPrime() {
+        Random random = new Random();
+        long prime = RSA.randPrime(0, Integer.MAX_VALUE, random);
+        BigInteger checkPrime = BigInteger.valueOf(prime);
+        assertTrue(checkPrime.isProbablePrime(1000));
+    }
+
+    @Test
+    void relPrime() {
+        Random random = new Random();
+        long num = random.nextLong();
+        long relPrime = RSA.relPrime(num, random);
+        assertTrue(RSA.egcd(num, relPrime)[2] == 1);
+    }
+
+    @Test
+    void longTo2Chars() {
+    }
+
+    @Test
+    void show() {
+    }
+
+    @Test
+    void toLong() {
+    }
 }
