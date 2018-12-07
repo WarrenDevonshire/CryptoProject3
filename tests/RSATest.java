@@ -145,16 +145,4 @@ class RSATest {
         long relPrime = RSA.relPrime(num, random);
         assertTrue(RSA.egcd(num, relPrime)[2] == 1);
     }
-
-    @Test
-    void longTo2Chars() {
-    }
-
-    @Test
-    void show() {
-    }
-
-    @Test
-    void toLong() {
-    }
 }
