@@ -103,7 +103,7 @@ public class RSA {
 
 	/**
 	 * Converts a long to 2 ASCII characters
-	 * @param x Long to convert
+	 * @param twoChar Long to convert
 	 * @return String of 2 characters
 	 * @author Jacob Caggese
 	 */
