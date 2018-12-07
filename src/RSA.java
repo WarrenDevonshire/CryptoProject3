@@ -79,24 +79,9 @@ public class RSA {
 		long longCheck;
 		while (longs.hasNext()) {
 			longCheck = longs.nextLong();
-			boolean canBePrime = true;
-			if (num % longCheck != 0) { // if random long isn't itself a factor of num
-				// check for mutual factors
-				if (longCheck % 2 == 0) { //check if both numbers are even first
-					if (num % 2 == 0)
-						canBePrime = false;
-				}
-				long lcMaxFact = longCheck / 2; //maximum possible integer factor is num/2
-				for (long i = 3; i < lcMaxFact && canBePrime; i += 2) {
-					if ((longCheck % i) == 0) {
-						if ((num % i) == 0)
-							canBePrime = false;
-					}
-				}
-				if (canBePrime) // only true if no factors
-					return longCheck;
+			if(gcd(num, longCheck) == 1){
+				return longCheck;
 			}
-			// After some number of iterations, return 0 or throw exception
 		}
 		return 0;
 	}

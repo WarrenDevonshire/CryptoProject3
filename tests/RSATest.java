@@ -141,7 +141,7 @@ class RSATest {
     @Test
     void relPrime() {
         Random random = new Random();
-        long num = random.nextLong();
+        long num = Math.abs(random.nextLong())+1;
         long relPrime = RSA.relPrime(num, random);
         assertTrue(RSA.egcd(num, relPrime)[2] == 1);
     }
