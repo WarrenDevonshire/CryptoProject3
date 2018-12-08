@@ -4,14 +4,13 @@ import java.util.Random;
  * Used to test public-key crypto-system, RSA
  *
  * @author Matt Halloran
- * @verson 12-08-18
+ * @verson 11-30-18
  */
 public class Person {
     //used to fill the last block if the message is not a multiple of the block size
     private char stufferChar = 0x0;
 
-    //minimum is 2, max is 3
-    private byte blockSize = 3;
+    private byte blockSize = 2;
 
     //public modulus. m = p*q, where p and q are both primes
     private long m;
@@ -33,7 +32,7 @@ public class Person {
     public Person() {
         Random rand = new Random();
         int minPrimeSize = (int) Math.pow(2, 4 * blockSize);
-        int maxPrimeSize = (int) Math.pow(2, 16) - 1;
+        int maxPrimeSize = (int) Math.pow(2, 15);
         long p = RSA.randPrime(minPrimeSize, maxPrimeSize, rand);
         long q = RSA.randPrime(minPrimeSize, maxPrimeSize, rand);
         m = p * q;
