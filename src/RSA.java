@@ -93,7 +93,7 @@ public class RSA {
 	 * @author Jacob Caggese
 	 */
 	public static java.lang.String longTo2Chars(long twoChar) {
-		char[] retString = {(char) (twoChar >> 32), (char) twoChar}; //left half + right half
+		char[] retString = {(char) ((twoChar & 0xFF00) >> 8), (char) (twoChar & 0xFF)}; //left half + right half
 		return new String(retString);
 	}
 
@@ -119,9 +119,9 @@ public class RSA {
 	public static long toLong(java.lang.String msg, int p) {
 		char[] msgChar = msg.toCharArray();
 		try {
-			return (long) msgChar[p]<<32 | msgChar[p+1]; //left char appended to right
+			return (long) msgChar[p]<<8 | msgChar[p+1]; //left char appended to right
 		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			return (long) msgChar[p]<<32;
+			return (long) msgChar[p]<<8;
 		}
 	}
 

@@ -10,7 +10,7 @@ public class Person {
     //used to fill the last block if the message is not a multiple of the block size
     private char stufferChar = 0x0;
 
-    private byte blockSize = 2;
+    private final byte blockSize = 2;
 
     //public modulus. m = p*q, where p and q are both primes
     private long m;
@@ -66,25 +66,17 @@ public class Person {
     public long[] encryptTo(String msg, Person she) throws ArithmeticException {
         //Makes message length a multiple of the block size
         int stufferCharsLength = msg.length() % blockSize;
-        for (int i = 0; i < stufferCharsLength; i++) {
+        for (int i = 0; i < stufferCharsLength; i++) 
             msg += stufferChar;
-        }
 
         //Converts msg string to long array
-        char[] messageChar = msg.toCharArray();
         long[] msgAsArray = new long[msg.length() / blockSize];
-        int current = 0;
-        for (int i = 0; i < msgAsArray.length; i++) {
-            for (int j = 0; j < blockSize; j++) {
-                msgAsArray[i] <<= 8; //shifts one byte
-                msgAsArray[i] += (byte) messageChar[current++];
-            }
-        }
+        for (int i = 0; i < msgAsArray.length; i++) 
+        	msgAsArray[i] = RSA.toLong(msg, i*2);
 
         //Encrypts each long in the message
-        for (int i = 0; i < msgAsArray.length; i++) {
+        for (int i = 0; i < msgAsArray.length; i++) 
             msgAsArray[i] = RSA.modPower(msgAsArray[i], she.getE(), she.getM());
-        }
 
         return msgAsArray;
     }
@@ -98,19 +90,13 @@ public class Person {
      */
     public String decrypt(long[] cipher) throws ArithmeticException {
         //Decrypts each long in the message
-        for (int i = 0; i < cipher.length; i++) {
+        for (int i = 0; i < cipher.length; i++)
             cipher[i] = RSA.modPower(cipher[i], d, m);
-        }
 
         //Converts long array to char array
-        char[] messageChar = new char[cipher.length * blockSize];
-        int current = messageChar.length - 1;
-        for (int i = cipher.length - 1; i >= 0; i--) {
-            for (int j = 0; j < blockSize; j++) {
-                messageChar[current--] = (char) (cipher[i] & 255);
-                cipher[i] >>= 8;
-            }
-        }
-        return new String(messageChar).replace("\0", "");
+        String plainText = new String();
+        for(int i = 0; i < cipher.length; i++)
+        	plainText += RSA.longTo2Chars(cipher[i]);
+        return new String(plainText).replace("\0", "");
     }
 }
