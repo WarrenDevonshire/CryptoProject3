@@ -66,16 +66,16 @@ public class Person {
     public long[] encryptTo(String msg, Person she) throws ArithmeticException {
         //Makes message length a multiple of the block size
         int stufferCharsLength = msg.length() % blockSize;
-        for (int i = 0; i < stufferCharsLength; i++) 
+        for (int i = 0; i < stufferCharsLength; i++)
             msg += stufferChar;
 
         //Converts msg string to long array
         long[] msgAsArray = new long[msg.length() / blockSize];
-        for (int i = 0; i < msgAsArray.length; i++) 
+        for (int i = 0; i < msgAsArray.length; i++)
         	msgAsArray[i] = RSA.toLong(msg, i*2);
 
         //Encrypts each long in the message
-        for (int i = 0; i < msgAsArray.length; i++) 
+        for (int i = 0; i < msgAsArray.length; i++)
             msgAsArray[i] = RSA.modPower(msgAsArray[i], she.getE(), she.getM());
 
         return msgAsArray;

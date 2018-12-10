@@ -1,4 +1,10 @@
+/**
+ * Warren Devonshire Dec 6 2018
+ */
+
 import org.junit.jupiter.api.Test;
+
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,9 +19,15 @@ class PersonTest {
     }
 
     @Test
-    void encryptEqualsDecrypt(){
+    void encryptEqualsDecrypt() {
         Person person = new Person();
-        String msg = "Hello, World! GoodbyeWorld!";
+        Random r = new Random();
+        int stringSize = Math.abs(r.nextInt(100));
+        StringBuilder msgBuilder = new StringBuilder(stringSize);
+        for (int j = 0; j < stringSize; j++) {
+            msgBuilder.append(r.nextInt(10));
+        }
+        String msg = msgBuilder.toString();
 
         long[] cipher = person.encryptTo(msg, person);
 
