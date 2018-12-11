@@ -126,6 +126,7 @@ public class RSA {
 	}
 
 	/**
+	 * Find the multiplicative inverse of a long int, mod m
 	 * @param e
 	 * @param m
 	 * @return
@@ -181,6 +182,7 @@ public class RSA {
 	}
 
 	/**
+	 * Finds the greatest common denominator of u and v
 	 * @param u
 	 * @param v
 	 * @return
@@ -200,6 +202,7 @@ public class RSA {
 	}
 
 	/**
+	 * Raise a number, b, to a power, p, modulo m
 	 * @param b Base
 	 * @param p Exponent
 	 * @param m Modulus
